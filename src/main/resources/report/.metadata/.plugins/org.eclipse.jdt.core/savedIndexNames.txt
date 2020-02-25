@@ -1,0 +1,1 @@
+INDEX VERSION 1.131+C:\Users\bolot\Documents\Comercial\comercial-api\src\main\resources\report\.metadata\.plugins\org.eclipse.jdt.core

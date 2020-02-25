@@ -1,0 +1,27 @@
+INDEX VERSION 1.131+C:\Users\bolot\Documents\Comercial\comercial-api\src\main\resources\.metadata\.plugins\org.eclipse.jdt.core
+808710224.index
+2404613713.index
+1918087404.index
+4238925761.index
+869943049.index
+3192981726.index
+3526986489.index
+1631945459.index
+587707288.index
+1048495404.index
+2502443493.index
+1822729790.index
+4139418934.index
+522570437.index
+1381671714.index
+231734400.index
+3246854289.index
+2071973556.index
+1387367944.index
+3161661197.index
+2142118396.index
+478688655.index
+2216368761.index
+3755826180.index
+2336066297.index
+3035810711.index

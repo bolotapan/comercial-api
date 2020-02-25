@@ -1,10 +1,15 @@
 package com.trainer.comercial.controller;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.flywaydb.core.internal.util.FileCopyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,18 +27,24 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.trainer.comercial.model.Oportunidade;
 import com.trainer.comercial.repository.OportunidadeRepository;
+import com.trainer.comercial.service.ReportService;
+
+import net.sf.jasperreports.engine.JRException;
 
 // GET http://localhost:8080/oportunidades
 
 // permite que o navegador acesse origens cruzadas (acessos de outros locais)
 //@CrossOrigin("http://localhost:4200") //informa a url especifica que pode acessar 
-@CrossOrigin //permite qualquer um
+@CrossOrigin // permite qualquer um
 @RestController // determina que a classe é um controlador rest
 @RequestMapping("/oportunidades") // uri de mapeamento
 public class OportunidadeController {
 
 	@Autowired // instancia uma interface
 	private OportunidadeRepository oportunidades;
+
+	@Autowired
+	private ReportService reportService;
 
 	@GetMapping
 	public List<Oportunidade> listar() {
@@ -81,6 +92,26 @@ public class OportunidadeController {
 	@DeleteMapping("/{id}")
 	public void excluir(@PathVariable Long id) {
 		oportunidades.deleteById(id);
+	}
+
+	@GetMapping("/report/lista")
+	public void exportReport(HttpServletResponse response) throws JRException, IOException {
+		try {
+			byte[] pdfReport = this.reportService.exportReport("oportunidades");
+			
+			String fileName = "Oportunidades";
+
+			response.setContentType("application/force-download");
+			response.setHeader("Content-Disposition", String.format("attachment; filename=%s.pdf", fileName));
+			
+			InputStream is = new ByteArrayInputStream(pdfReport);
+			
+			FileCopyUtils.copy(is, response.getOutputStream());
+			
+			response.getOutputStream().flush();
+		} catch (JRException e) {
+			response.setStatus(HttpServletResponse.SC_OK);
+		}
 	}
 
 }
